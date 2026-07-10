@@ -1,0 +1,24 @@
+# Netlify deployment config for the frontend (Next.js static export).
+# This repo is a monorepo (backend/ + frontend/), so `base` points Netlify
+# at the frontend subfolder; `publish` is relative to that base.
+#
+# Before your first deploy, set NEXT_PUBLIC_API_URL in Netlify's UI under
+# Site settings -> Environment variables, pointing at your deployed backend
+# (e.g. https://carecompliance-backend.onrender.com/api). It must be set
+# BEFORE building, since it's baked into the static output at build time -
+# changing it later requires a rebuild, not just a redeploy.
+
+[build]
+  base = "frontend"
+  command = "npm run build"
+  publish = "out"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# Next.js static export already emits a real 404.html; this just ensures
+# Netlify serves it for unmatched paths instead of its own default page.
+[[redirects]]
+  from = "/*"
+  to = "/404.html"
+  status = 404

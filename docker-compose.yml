@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: carecompliance-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: cc_user
+      POSTGRES_PASSWORD: cc_password
+      POSTGRES_DB: carecompliance
+    ports:
+      - '5432:5432'
+    volumes:
+      - carecompliance_pgdata:/var/lib/postgresql/data
+
+volumes:
+  carecompliance_pgdata:
